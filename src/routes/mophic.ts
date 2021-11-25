@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import moment from 'moment';
 
 import { MophicModel } from "../model/mophic";
 const mophicModel = new MophicModel();
@@ -8,7 +9,12 @@ var router = express.Router();
 router.get('/history', async function (req: Request, res: Response, next: NextFunction) {
   try {
     const rs: any = await mophicModel.getImmunizationHistoryDate(req.db);
-    res.send({ ok: true, rows: rs[0] })
+    res.send({
+      ok: true, rows: rs[0].map((v: any) => {
+        v.immunization_date = moment(v.immunization_date).format("YYYY-MM-DD");
+        return v;
+      })
+    })
   } catch (error) {
     res.send({ ok: false, error: error })
   }
