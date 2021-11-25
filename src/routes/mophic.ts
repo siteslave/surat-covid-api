@@ -38,5 +38,14 @@ router.get('/target', async function (req: Request, res: Response, next: NextFun
   }
 });
 
+router.get('/dashboard/target/current', async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const rs: any = await mophicModel.getImmunizationDashboardByTarget(req.db);
+    res.send({ ok: true, rows: rs[0] })
+  } catch (error) {
+    res.send({ ok: false, error: error })
+  }
+});
+
 
 module.exports = router;
