@@ -93,9 +93,9 @@ export class MophicModel {
       from visit_immunization vi
       where vi.person_risk_type_id = 502
       and vi.vaccine_plan_no=1) as t502,
-      (select count(1) from view_person_target vpt where vpt.person_risk_type_id in (201, 301, 302,303,304,305,306,307,308, 601)) as target_608,
-      (select count(1) from view_person_target vpt where vpt.person_risk_type_id in (501)) as target_501,
-      (select count(1) from view_person_target vpt where vpt.person_risk_type_id in (502)) as target_502;
+      (select sum(vpt.total) from view_person_target vpt where vpt.person_risk_type_id in (201, 301, 302,303,304,305,306,307,308, 601)) as target_608,
+      (select sum(vpt.total) from view_person_target vpt where vpt.person_risk_type_id in (501)) as target_501,
+      (select sum(vpt.total) from view_person_target vpt where vpt.person_risk_type_id in (502)) as target_502;
     `)
   }
 
