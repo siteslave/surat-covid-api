@@ -34,6 +34,25 @@ export class MophicModel {
     `)
   }
 
+  getImmunization608PlanNo1(db: Knex) {
+    return db.raw(`
+      select a.name_th as amphur_name, p.amp_code, count(1) as total_target,
+      (
+      select count(1)
+      from visit_immunization vi
+      where vi.vaccine_plan_no=1
+      and vi.person_type_id in (2,3,6)
+      and vi.hospital_chwpart=p.chw_code
+      and vi.hospital_amppart=p.amp_code
+      ) as total_no1
+      from person p
+      inner join amphures a on a.code = concat(p.chw_code,p.amp_code)
+      where p.chw_code='40'
+      and p.person_type_id in (2,3,6)
+      group by p.chw_code ,p.amp_code;
+    `)
+  }
+
   getImmunizationDashboardByTarget(db: Knex) {
     return db.raw(`
       select (select count(1)

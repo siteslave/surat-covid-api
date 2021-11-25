@@ -41,7 +41,29 @@ router.get('/target', async function (req: Request, res: Response, next: NextFun
 router.get('/dashboard/target/current', async function (req: Request, res: Response, next: NextFunction) {
   try {
     const rs: any = await mophicModel.getImmunizationDashboardByTarget(req.db);
-    res.send({ ok: true, rows: rs[0] })
+    res.send({
+      ok: true, rows: rs[0].map((v: any) => {
+        v.result_608 = +v.t608 * 100 / v.target_608;
+        v.result_501 = +v.t501 * 100 / v.target_501;
+        v.result_502 = +v.t502 * 100 / v.target_502;
+
+        return v;
+      })
+    })
+  } catch (error) {
+    res.send({ ok: false, error: error })
+  }
+});
+
+router.get('/dashboard/chart/608', async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const rs: any = await mophicModel.getImmunization608PlanNo1(req.db);
+    res.send({
+      ok: true, rows: rs[0].map((v: any) => {
+        v.result_608 = +v.total_no1 * 100 / v.total_target;
+        return v;
+      })
+    })
   } catch (error) {
     res.send({ ok: false, error: error })
   }
