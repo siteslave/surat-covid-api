@@ -43,7 +43,7 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
                 const rs: any = await usersModel.saveUser(req.db, obj);
                 const payload: any = {
                     userId: rs[0],
-                    name: `${body.first_name} ${body.last_name}`,
+                    name: `${body.firstName} ${body.lastName}`,
                 };
 
                 const token = await jwtModel.sign(payload);
