@@ -17,7 +17,7 @@ router.post('/', async function (req: Request, res: Response) {
             const hash = CryptoJS.MD5(password).toString();
             if (users[0].password == hash) {
                 const payload = {
-                    userId: users[0].id,
+                    userId: users[0].user_id,
                     name: `${users[0].first_name} ${users[0].last_name}`
                 }
                 const token = await jwtModel.sign(payload);
