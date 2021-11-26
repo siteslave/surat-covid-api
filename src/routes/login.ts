@@ -10,15 +10,15 @@ const jwtModel = new JwtModel();
 
 router.post('/', async function (req: Request, res: Response) {
     try {
-        const username = req.body.username;
+        const email = req.body.email;
         const password = req.body.password;
-        const users: any = await loginModel.findUsername(req.db, username);
+        const users: any = await loginModel.findUsername(req.db, email);
         if (users.length) {
             const hash = CryptoJS.MD5(password).toString();
             if (users[0].password == hash) {
                 const payload = {
-                    id: users[0].id,
-                    first_name: users[0].first_name
+                    userId: users[0].id,
+                    name: `${users[0].first_name} ${users[0].last_name}`
                 }
                 const token = await jwtModel.sign(payload);
                 res.send({ ok: true, token: token });

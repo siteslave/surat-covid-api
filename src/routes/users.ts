@@ -31,12 +31,12 @@ router.get('/info', async function (req: Request, res: Response, next: NextFunct
 router.post('/', async function (req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
-        if (body.first_name && body.last_name && body.password) {
+        if (body.firstName && body.lastName && body.password) {
             const users: any = await usersModel.findUsername(req.db, body.email);
             if (users.length === 0) {
                 const obj: any = {
-                    first_name: body.first_name,
-                    last_name: body.last_name,
+                    first_name: body.firstName,
+                    last_name: body.lastName,
                     email: body.email,
                     password: CryptoJS.MD5(body.password).toString()
                 }

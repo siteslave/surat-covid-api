@@ -1,11 +1,11 @@
 import { Knex } from 'knex'
 export class LoginModel {
 
-   
-    findUsername(db: Knex, username: string) {
+
+    findUsername(db: Knex, email: string) {
         return db('users')
-            .where('username', username)
+            .where('email', email)
     }
 
-  
+
 }
