@@ -5,7 +5,8 @@ const usersModel = new UsersModel();
 var CryptoJS = require("crypto-js");
 var express = require('express');
 var router = express.Router();
-
+import { JwtModel } from '../model/jwt';
+const jwtModel = new JwtModel();
 
 /* GET users listing. */
 router.get('/', async function (req: Request, res: Response, next: NextFunction) {
@@ -31,19 +32,25 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
     try {
         const body = req.body;
         if (body.first_name && body.last_name && body.password) {
-            const users: any = await usersModel.findUsername(req.db, body.username);
+            const users: any = await usersModel.findUsername(req.db, body.email);
             if (users.length === 0) {
                 const obj: any = {
                     first_name: body.first_name,
                     last_name: body.last_name,
-                    title_id: body.title_id,
-                    username: body.username,
+                    email: body.email,
                     password: CryptoJS.MD5(body.password).toString()
                 }
                 const rs: any = await usersModel.saveUser(req.db, obj);
-                res.send({ ok: true, rows: rs })
+                const payload: any = {
+                    "userId": rs[0],
+                    "name": `${body.first_name} ${body.last_name}`,
+                    "email": body.email,
+                };
+                const token = await jwtModel.sign(payload);
+
+                res.send({ ok: true, token })
             } else {
-                res.send({ok:false,error:'Username ซ้ำ'});
+                res.send({ ok: false, error: 'Username ซ้ำ' });
             }
         } else {
             res.send({ ok: false, error: 'ไม่พบ parameter' })

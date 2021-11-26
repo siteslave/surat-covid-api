@@ -3,9 +3,9 @@ export class UsersModel {
 
     getList(db: Knex) {
         return db('users as u')
-        .select('u.id', 'u.first_name',
-        'u.last_name', 'u.title_id', 't.name as title_name')
-        .join('titles as t', 't.id', 'u.title_id')
+            .select('u.id', 'u.first_name',
+                'u.last_name', 'u.title_id', 't.name as title_name')
+            .join('titles as t', 't.id', 'u.title_id')
     }
 
     saveUser(db: Knex, data: any) {
@@ -18,9 +18,9 @@ export class UsersModel {
             .where('id', id)
     }
 
-    findUsername(db: Knex, username: string) {
+    findUsername(db: Knex, email: string) {
         return db('users')
-            .where('username', username)
+            .where('email', email)
     }
 
     delete(db: Knex, id: number) {
