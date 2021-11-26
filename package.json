@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx ts-node src/bin/www.ts",
-    "build": "tsc"
+    "start": "npx ts-node ./src/app.ts",
+    "watch": "npx nodemon",
+    "build": "npx gulp"
   },
   "dependencies": {
     "@types/knex": "^0.16.1",
@@ -24,6 +25,17 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13"
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.10",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-cli": "^2.2.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^5.0.1",
+    "gulp-uglify": "^3.0.2",
+    "readable-stream": "^3.6.0",
+    "nodemon": "^2.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
   }
 }

@@ -11,7 +11,8 @@ import { JwtModel } from "./model/jwt";
 const jwtModel = new JwtModel();
 const cors = require('cors');
 var logger = require('morgan');
-require('dotenv').config();
+
+require('dotenv').config({ path: path.join(__dirname, '../config/env') })
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -90,8 +91,6 @@ const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
     res.send({ ok: false, error: 'Unauthorized' });
   }
 }
-
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
